@@ -6,5 +6,5 @@ font-family: sonar;
 
 @font-face {
   font-family: sonar;
-  src: url("../public/fonts/sonar.otf");
+  src: url("./fonts/sonar.otf");
 }
