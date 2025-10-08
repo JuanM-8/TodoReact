@@ -17,9 +17,9 @@
 .container {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 32vw;
   height: max-content;
-  min-height: 700px;
+  min-height: 75vh;
 
   background: transparent;
   backdrop-filter: blur(3px);
@@ -103,6 +103,9 @@
   form {
     width: 100%;
     text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
   }
   input {
     border: none;
