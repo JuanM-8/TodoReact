@@ -1,0 +1,10 @@
+*,body{
+ margin: 0;
+box-sizing: border-box;
+font-family: sonar;
+}
+
+@font-face {
+  font-family: sonar;
+  src: url("../public/fonts/sonar.otf");
+}
