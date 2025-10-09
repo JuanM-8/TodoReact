@@ -16,8 +16,8 @@
 
 .container {
   position: relative;
-  min-width: 32vw;
-  min-height: 75vh;
+  min-width: 32svw;
+  min-height: 75svh;
   background: transparent;
   backdrop-filter: blur(3px);
   border: 1px solid rgba(255, 255, 255, 0.22);
