@@ -35,6 +35,10 @@ function App() {
     );
   };
 
+  const borrarAll = ()=>{
+    setList([])
+  }
+
   return (
     <div className="container">
       <span className="clip-top"></span>
@@ -46,6 +50,7 @@ function App() {
         <span className="clip-pin"></span>
 
         <div className="cont-form">
+          <button onClick={()=>borrarAll()}>🗑️</button>
           <form
             onSubmit={(e) => {
               e.preventDefault();

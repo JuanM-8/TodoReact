@@ -16,11 +16,8 @@
 
 .container {
   position: relative;
-  width: 100%;
-  max-width: 32vw;
-  height: max-content;
+  min-width: 32vw;
   min-height: 75vh;
-
   background: transparent;
   backdrop-filter: blur(3px);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -68,7 +65,7 @@
   width: 80px;
   height: 40px;
   background-color: #b0bec5;
-  border-radius: 5px 5px 15px 15px; /* Parte inferior más curva */
+  border-radius: 5px 5px 15px 15px; 
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
 }
@@ -80,7 +77,7 @@
   transform: translateX(-50%);
   width: 20px;
   height: 10px;
-  background-color: #78909c; /* Tono más oscuro para el agarre */
+  background-color: #78909c; 
   border-radius: 3px;
 }
 
