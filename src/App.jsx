@@ -11,7 +11,6 @@ function App() {
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(list));
   }, [list]);
-  const today = new Date().toLocaleDateString();
 
   function add() {
     if (task.trim() === "") {
@@ -20,7 +19,10 @@ function App() {
     }
     console.log(task);
     setTask("");
-    setList([...list, { text: task, completed: false }]);
+    setList([
+      ...list,
+      { text: task, completed: false, date: new Date().toLocaleDateString() },
+    ]);
   }
 
   function remove(index) {
@@ -84,7 +86,7 @@ function App() {
                   </span>
                 </div>
                 <div>
-                  <span className="date">{today}</span>
+                  <span className="date">{item.date}</span>
 
                   <button
                     onClick={(e) => {
@@ -93,7 +95,7 @@ function App() {
                     }}
                   >
                     x
-                  </button> 
+                  </button>
                 </div>
               </li>
             ))}
