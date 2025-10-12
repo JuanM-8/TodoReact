@@ -11,6 +11,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(list));
   }, [list]);
+  const today = new Date().toLocaleDateString();
 
   function add() {
     if (task.trim() === "") {
@@ -35,9 +36,9 @@ function App() {
     );
   };
 
-  const borrarAll = ()=>{
-    setList([])
-  }
+  const borrarAll = () => {
+    setList([]);
+  };
 
   return (
     <div className="container">
@@ -50,7 +51,8 @@ function App() {
         <span className="clip-pin"></span>
 
         <div className="cont-form">
-          <button onClick={()=>borrarAll()}>🗑️</button>
+          <button onClick={() => borrarAll()}>🗑️</button>
+
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -81,15 +83,18 @@ function App() {
                     {item.text}
                   </span>
                 </div>
+                <div>
+                  <span className="date">{today}</span>
 
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    remove(index);
-                  }}
-                >
-                  ❌
-                </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      remove(index);
+                    }}
+                  >
+                    x
+                  </button> 
+                </div>
               </li>
             ))}
           </ul>

@@ -65,7 +65,7 @@
   width: 80px;
   height: 40px;
   background-color: #b0bec5;
-  border-radius: 5px 5px 15px 15px; 
+  border-radius: 5px 5px 15px 15px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
 }
@@ -77,7 +77,7 @@
   transform: translateX(-50%);
   width: 20px;
   height: 10px;
-  background-color: #78909c; 
+  background-color: #78909c;
   border-radius: 3px;
 }
 
@@ -133,13 +133,14 @@
     list-style: none;
   }
   li {
+    position: relative;
     display: flex;
     text-transform: uppercase;
     justify-content: space-between; /* separa el texto del botón */
     align-items: center;
     padding: 0.6rem 2rem;
     cursor: pointer;
-    background-color: rgb(238, 240, 240);
+    background-color: rgba(238, 240, 240, 0.802);
     margin: 0.2rem 1rem;
   }
 
@@ -149,18 +150,27 @@
   }
   button {
     cursor: pointer;
-    background: none;
+    background-color: #ff4d4d; /* Rojo */
+    color: white;
     border: none;
-    transition: 0.3s all;
     border-radius: 5px;
-    z-index: 999 !important;
+    padding: 5px 10px;
+    line-height: 1;
+    transition: background-color 0.2s;
 
     &:hover {
-      background: #e9e8e8;
+      background-color: #cc0000;
     }
   }
 }
 .cont-tasks ul {
   list-style-position: inside; /* hace que el bullet aparezca dentro del li */
   padding-left: 0; /* opcional, para evitar demasiado espacio a la izquierda */
+}
+
+li .date {
+    font-size: clamp(0.5rem, -0.125rem + 2vw, 1rem);
+    color: #666;
+    margin-right: 10px;
+    ; 
 }
