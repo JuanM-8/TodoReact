@@ -13,6 +13,25 @@
   min-height: 100vh;
   box-sizing: border-box;
 }
+.error {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 999;
+  width: max-content;
+  height: max-content;
+  background: rgba(255, 0, 0, 0.585);
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  color: white;
+  transition: opacity 0.5s ease;
+  opacity: 1;
+}
+
+.error.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
 
 .container {
   position: relative;
@@ -169,8 +188,7 @@
 }
 
 li .date {
-    font-size: clamp(0.5rem, -0.125rem + 2vw, 1rem);
-    color: #666;
-    margin-right: 10px;
-    ; 
+  font-size: clamp(0.5rem, -0.125rem + 2vw, 1rem);
+  color: #666;
+  margin-right: 10px;
 }
