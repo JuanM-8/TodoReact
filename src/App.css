@@ -35,8 +35,9 @@
 
 .container {
   position: relative;
-  min-width: 32svw;
+  width: 32svw;
   min-height: 75svh;
+  transition: width 0.3s ease;
   background: transparent;
   backdrop-filter: blur(3px);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -124,6 +125,7 @@
     display: flex;
   }
   input {
+    font-size: 1.3rem;
     border: none;
     border-bottom: 1px dashed rgb(231, 231, 231);
     width: 75%;
@@ -141,7 +143,7 @@
     transition: 0.3s all;
   }
   button:hover {
-    background: #e9e9e9;
+    background: #c2c2c2;
   }
 }
 
@@ -150,6 +152,7 @@
   ul {
     text-wrap: wrap;
     list-style: none;
+    padding: 0;
   }
   li {
     position: relative;
@@ -167,6 +170,18 @@
     text-decoration: line-through;
     color: #78909c91;
   }
+  .container-date {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+  }
+
+  li .date {
+    font-size: clamp(0.4rem, -0.125rem + 2vw, .7rem);
+    color: #666;
+    margin-right: 10px;
+  }
   button {
     cursor: pointer;
     background-color: #ff4d4d; /* Rojo */
@@ -176,19 +191,17 @@
     padding: 5px 10px;
     line-height: 1;
     transition: background-color 0.2s;
+    width: 30px;
+    height: 30px;
 
     &:hover {
       background-color: #cc0000;
     }
   }
 }
-.cont-tasks ul {
-  list-style-position: inside; /* hace que el bullet aparezca dentro del li */
-  padding-left: 0; /* opcional, para evitar demasiado espacio a la izquierda */
-}
 
-li .date {
-  font-size: clamp(0.5rem, -0.125rem + 2vw, 1rem);
-  color: #666;
-  margin-right: 10px;
+@media (max-width: 1300px) {
+  .container {
+    width: 90%;
+  }
 }
