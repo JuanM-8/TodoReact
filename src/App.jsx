@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import "./App.css";
 
 function App() {
@@ -8,6 +9,25 @@ function App() {
     const saved = localStorage.getItem("tasks");
     return saved ? JSON.parse(saved) : [];
   });
+
+  const prevLength = useRef(list.length);
+
+  useEffect(() => {
+    if (list.length > prevLength.current) {
+      const lastTask = document.querySelector(".task-item:last-child");
+
+      if (lastTask) {
+        gsap.fromTo(
+          lastTask,
+          { opacity: 0, scale: 0.8, y: 20 },
+          { opacity: 1, scale: 1, y: 0, duration: 1, ease: "elastic" }
+        );
+      }
+    }
+
+ 
+    prevLength.current = list.length;
+  }, [list]);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(list));
@@ -129,7 +149,11 @@ function App() {
           <div className="cont-tasks">
             <ul>
               {list.map((item, index) => (
-                <li key={index} onClick={() => toggle(index)}>
+                <li
+                  className="task-item"
+                  key={index}
+                  onClick={() => toggle(index)}
+                >
                   <div
                     style={{
                       display: "flex",
@@ -145,7 +169,7 @@ function App() {
                     <p
                       className={item.completed ? "done" : ""}
                       style={{
-                        padding:"0 1rem 0 0"
+                        padding: "0 1rem 0 0",
                       }}
                     >
                       {item.text}
