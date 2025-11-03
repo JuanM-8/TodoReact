@@ -143,7 +143,7 @@
     transition: 0.3s all;
   }
   button:hover {
-    background: #c2c2c2;
+    background-color: rgba(194, 195, 195, 0.802);
   }
 }
 
@@ -164,6 +164,12 @@
     cursor: pointer;
     background-color: rgba(238, 240, 240, 0.802);
     margin: 0.2rem 1rem;
+    transition: 0.3s;
+
+    &:hover {
+      transform: scale(1.02) !important;
+      background-color: rgba(194, 195, 195, 0.802);
+    }
   }
 
   .done {
@@ -178,7 +184,7 @@
   }
 
   li .date {
-    font-size: clamp(0.4rem, -0.125rem + 2vw, .7rem);
+    font-size: clamp(0.4rem, -0.125rem + 2vw, 0.7rem);
     color: #666;
     margin-right: 10px;
   }
@@ -198,6 +204,27 @@
       background-color: #cc0000;
     }
   }
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
+  color: #ffffff73;
+  font-size: 0.9rem;
+  background: transparent;
+  width: 100%;
+  place-items: end;
+}
+.img-footer {
+  position: relative;
+}
+.img-footer img {
+      width: 50px; 
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translate(-50%);
 }
 
 @media (max-width: 1300px) {
