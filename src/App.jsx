@@ -130,12 +130,12 @@ Título original: "${selectedTask.text}"`,
     setDescription("");
     try {
       const result = await callClaude(
-        `Eres el Operador de Tecnologia de una Tienda. Genera una descripción formal para un ticket de Jira dando respuesta al titulo o requerimiento.
-La descripción debe:
+        `Eres el Operador de Tecnologia de una Tienda. Genera una solucion formal para un ticket de Jira dando respuesta al titulo o requerimiento.
+La solucion debe:
 - Estar en primera persona
-- Describir brevemente el problema o actividad realizada
+- Describir brevemente la solucion realizada
 - Tener maximo 2 oraciones
-- Ser concisa
+- Ser concisa , no tan tecnica, apta para que la lea un cliente sin conocimientos de IT
 
 Responde SOLO con la descripción, sin títulos ni encabezados.
 
