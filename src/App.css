@@ -34,6 +34,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .clip-pin {
   position: absolute;
   background-color: #00ccaa;
@@ -43,25 +44,27 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   z-index: 10;
 }
-.sheet > .clip-pin:nth-child(1) {
+
+.sheet>.clip-pin:nth-child(1) {
   top: 5px;
   left: 5px;
 }
 
-.sheet > .clip-pin:nth-child(2) {
+.sheet>.clip-pin:nth-child(2) {
   top: 5px;
   right: 5px;
 }
 
-.sheet > .clip-pin:nth-child(3) {
+.sheet>.clip-pin:nth-child(3) {
   bottom: 5px;
   left: 5px;
 }
 
-.sheet > .clip-pin:nth-child(4) {
+.sheet>.clip-pin:nth-child(4) {
   bottom: 5px;
   right: 5px;
 }
+
 .clip-top {
   position: absolute;
   top: 0;
@@ -74,6 +77,7 @@
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   z-index: 10;
 }
+
 .clip-top::before {
   content: "";
   position: absolute;
@@ -96,12 +100,25 @@
   background-size: 100% 40px;
 }
 
+.btn-delete {
+  position: absolute;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  right: -40px;
+  border-radius: 0px 10px 10px 0px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
 .cont-form {
   margin: auto;
   width: 70%;
   padding: 1rem;
   display: flex;
   justify-content: center;
+
   form {
     width: 100%;
     text-align: center;
@@ -109,24 +126,25 @@
     align-items: center;
     display: flex;
   }
+
   input {
-    font-size: 1.3rem;
     border: none;
-    border-bottom: 1px dashed rgb(231, 231, 231);
+    border: 1px dashed rgb(231, 231, 231);
     width: 75%;
     height: 2.5rem;
     padding: 0.5rem;
   }
+
   button {
     border: none;
-    border-bottom: 1px dashed rgb(231, 231, 231);
-
+    border: 1px dashed rgb(231, 231, 231);
     background: #fff;
     cursor: pointer;
     width: 2.5rem;
-    height: 2.5rem;
+    height: 100%;
     transition: 0.3s all;
   }
+
   button:hover {
     background-color: rgba(194, 195, 195, 0.802);
   }
@@ -134,11 +152,13 @@
 
 .cont-tasks {
   width: 100%;
+
   ul {
     text-wrap: wrap;
     list-style: none;
     padding: 0;
   }
+
   li {
     position: relative;
     display: flex;
@@ -167,6 +187,7 @@
     text-decoration: line-through;
     color: #78909c91;
   }
+
   .container-date {
     display: flex;
     flex-direction: row;
@@ -180,6 +201,7 @@
     color: #666;
     margin-right: 10px;
   }
+
   button {
     cursor: pointer;
     background-color: #ff4d4d;
@@ -210,9 +232,25 @@
   }
 }
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000000b7;
+  display: flex;
+  z-index: 1001;
+}
+
 /* ── Panel IA ────────────────────────────────────────────────────────────────── */
 .ai-panel {
-  margin: 12px 16px 16px;
+
+  top: 0;
+  z-index: 999;
+  width: 90%;
+  margin: auto;
+
   background: #f0f4ff;
   border-radius: 10px;
   overflow: hidden;
@@ -318,6 +356,7 @@
     background: #02a68b;
     transform: translateY(-1px);
   }
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -389,6 +428,7 @@
     opacity: 0;
     transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -406,9 +446,11 @@ footer {
   width: 100%;
   place-items: end;
 }
+
 .img-footer {
   position: relative;
 }
+
 .img-footer img {
   width: 50px;
   position: absolute;

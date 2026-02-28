@@ -26,7 +26,6 @@ function App() {
   const [loadingTitle, setLoadingTitle] = useState(false);
   const [description, setDescription] = useState("");
   const [loadingDesc, setLoadingDesc] = useState(false);
-  const [toast, setToast] = useState("");
 
   const prevLength = useRef(list.length);
   const panelRef = useRef(null);
@@ -131,13 +130,12 @@ Título original: "${selectedTask.text}"`,
     setDescription("");
     try {
       const result = await callClaude(
-        `Eres un técnico de soporte de TI. Genera una descripción formal y profesional para un ticket de Jira basándote en el siguiente título.
+        `Eres el Operador de Tecnologia de una Tienda. Genera una descripción formal para un ticket de Jira basándote en el siguiente título.
 La descripción debe:
 - Estar en tercera persona
 - Describir brevemente el problema o actividad realizada
-- Mencionar el impacto o resolución si aplica
-- Tener entre 2 y 4 oraciones
-- Ser concisa y profesional
+- Tener entre 2 y 3 oraciones
+- Ser concisa
 
 Responde SOLO con la descripción, sin títulos ni encabezados.
 
@@ -164,17 +162,7 @@ Título: "${titleToUse}"`,
       </div>
 
       <div className="container">
-        <span className="clip-top"></span>
-
-        <div className="sheet">
-          <span className="clip-pin"></span>
-          <span className="clip-pin"></span>
-          <span className="clip-pin"></span>
-          <span className="clip-pin"></span>
-
-          {/* Formulario */}
-          <div className="cont-form">
-            <button onClick={borrarAll}>
+        <button className="btn-delete" onClick={borrarAll}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                 <g id="Trash">
                   <path
@@ -224,6 +212,17 @@ Título: "${titleToUse}"`,
                 </g>
               </svg>
             </button>
+        <span className="clip-top"></span>
+
+        <div className="sheet">
+          <span className="clip-pin"></span>
+          <span className="clip-pin"></span>
+          <span className="clip-pin"></span>
+          <span className="clip-pin"></span>
+
+          {/* Formulario */}
+          <div className="cont-form">
+            
 
             <form
               onSubmit={(e) => {
@@ -237,7 +236,7 @@ Título: "${titleToUse}"`,
                 value={task}
                 onChange={(e) => setTask(e.target.value)}
               />
-              <button>✔️</button>
+              <button>✓</button>
             </form>
           </div>
 
@@ -300,108 +299,111 @@ Título: "${titleToUse}"`,
 
           {/* ── Panel IA ── */}
           {selectedTask && (
-            <div className="ai-panel" ref={panelRef}>
-              <div className="ai-panel-header">
-                <span className="ai-icon">✦</span>
-                <span>Generar ticket Jira</span>
-                <button
-                  className="ai-close"
-                  onClick={() => setSelectedTask(null)}
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="ai-panel-body">
-                {/* Tarea original */}
-                <div className="ai-field">
-                  <label className="ai-label">Tarea original</label>
-                  <div className="ai-original">{selectedTask.text}</div>
+            <div className="overlay">
+              <div className="ai-panel" ref={panelRef}>
+                <div className="ai-panel-header">
+                  <span className="ai-icon">✦</span>
+                  <span>Generar ticket Jira</span>
+                  <button
+                    className="ai-close"
+                    onClick={() => setSelectedTask(null)}
+                  >
+                    ✕
+                  </button>
                 </div>
 
-                {/* Título formal */}
-                <div className="ai-field">
-                  <label className="ai-label">Título formal</label>
-                  <button
-                    className="ai-btn"
-                    onClick={handleFormalizeTitle}
-                    disabled={loadingTitle}
-                  >
-                    {loadingTitle ? (
-                      <>
-                        <span className="ai-spinner" /> Formalizando...
-                      </>
-                    ) : (
-                      "✦ Formalizar título"
-                    )}
-                  </button>
-                  {formalTitle && (
-                    <div className="ai-result">
-                      <p>{formalTitle}</p>
-                      <div className="ai-result-actions">
-                        <button
-                          className="ai-mini-btn"
-                          onClick={handleFormalizeTitle}
-                        >
-                          ↺
-                        </button>
-                        <button
-                          className="ai-mini-btn"
-                          onClick={() => copy(formalTitle, "Título")}
-                        >
-                          ⎘ Copiar
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <div className="ai-panel-body">
+                  {/* Tarea original */}
+                  <div className="ai-field">
+                    <label className="ai-label">Tarea original</label>
+                    <div className="ai-original">{selectedTask.text}</div>
+                  </div>
 
-                {/* Descripción */}
-                <div className="ai-field">
-                  <label className="ai-label">
-                    Descripción
-                    {!formalTitle && (
-                      <span className="ai-hint">
-                        {" "}
-                        (formaliza el título primero para mejor resultado)
-                      </span>
-                    )}
-                  </label>
-                  <button
-                    className="ai-btn"
-                    onClick={handleGenerateDesc}
-                    disabled={loadingDesc}
-                  >
-                    {loadingDesc ? (
-                      <>
-                        <span className="ai-spinner" /> Generando...
-                      </>
-                    ) : (
-                      "✦ Generar descripción"
-                    )}
-                  </button>
-                  {description && (
-                    <div className="ai-result ai-result-desc">
-                      <p>{description}</p>
-                      <div className="ai-result-actions">
-                        <button
-                          className="ai-mini-btn"
-                          onClick={handleGenerateDesc}
-                        >
-                          ↺
-                        </button>
-                        <button
-                          className="ai-mini-btn"
-                          onClick={() => copy(description, "Descripción")}
-                        >
-                          ⎘ Copiar
-                        </button>
+                  {/* Título formal */}
+                  <div className="ai-field">
+                    <label className="ai-label">Título formal</label>
+                    <button
+                      className="ai-btn"
+                      onClick={handleFormalizeTitle}
+                      disabled={loadingTitle}
+                    >
+                      {loadingTitle ? (
+                        <>
+                          <span className="ai-spinner" /> Formalizando...
+                        </>
+                      ) : (
+                        "✦ Formalizar título"
+                      )}
+                    </button>
+                    {formalTitle && (
+                      <div className="ai-result">
+                        <p>{formalTitle}</p>
+                        <div className="ai-result-actions">
+                          <button
+                            className="ai-mini-btn"
+                            onClick={handleFormalizeTitle}
+                          >
+                            ↺
+                          </button>
+                          <button
+                            className="ai-mini-btn"
+                            onClick={() => copy(formalTitle, "Título")}
+                          >
+                            ⎘ Copiar
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
+
+                  {/* Descripción */}
+                  <div className="ai-field">
+                    <label className="ai-label">
+                      Descripción
+                      {!formalTitle && (
+                        <span className="ai-hint">
+                          {" "}
+                          (formaliza el título primero para mejor resultado)
+                        </span>
+                      )}
+                    </label>
+                    <button
+                      className="ai-btn"
+                      onClick={handleGenerateDesc}
+                      disabled={loadingDesc}
+                    >
+                      {loadingDesc ? (
+                        <>
+                          <span className="ai-spinner" /> Generando...
+                        </>
+                      ) : (
+                        "✦ Generar descripción"
+                      )}
+                    </button>
+                    {description && (
+                      <div className="ai-result ai-result-desc">
+                        <p>{description}</p>
+                        <div className="ai-result-actions">
+                          <button
+                            className="ai-mini-btn"
+                            onClick={handleGenerateDesc}
+                          >
+                            ↺
+                          </button>
+                          <button
+                            className="ai-mini-btn"
+                            onClick={() => copy(description, "Descripción")}
+                          >
+                            ⎘ Copiar
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
+
           )}
         </div>
       </div>
