@@ -1,10 +1,7 @@
 export function Footer() {
   return (
     <footer>
-      <div className="img-footer">
-        <img src="/mm.avif" alt="" />
-        Desarrollado por: Juan Marin
-      </div>
+      <span>Desarrollado por: <a href="https://portafoliojdm.netlify.app/" target="_BLANK">Juan Marin</a></span>
     </footer>
   );    
 }

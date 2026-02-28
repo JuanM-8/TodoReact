@@ -1,16 +1,21 @@
 body {
-  height: 100vh;
-  max-width: 70rem;
   margin: auto;
+  padding: 30px;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  max-width: 70rem;
+
+
   background: #121212;
   color: #000000;
   font-family:
-    Space Grotesk,
-    Space Grotesk Fallback;
+   "sonar", sans-serif;
   display: flex;
-  align-items: center;
-  justify-content: center;
+
 }
+
 .glow {
   position: fixed;
 
@@ -26,6 +31,7 @@ body {
   filter: blur(100px);
   z-index: -1;
 }
+
 
 @font-face {
   font-family: sonar;

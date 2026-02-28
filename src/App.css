@@ -443,8 +443,22 @@ footer {
   color: #ffffff73;
   font-size: 0.9rem;
   background: transparent;
-  width: 100%;
   place-items: end;
+}
+footer a{
+      text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    color: #e6e6eb;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: all .18s ease;
+}
+
+footer a:hover {
+    color: #fff;
+    background: #ffffff14;
+    transform: translateY(-1px);
 }
 
 .img-footer {
