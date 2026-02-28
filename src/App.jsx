@@ -134,7 +134,7 @@ Título original: "${selectedTask.text}"`,
 La descripción debe:
 - Estar en tercera persona
 - Describir brevemente el problema o actividad realizada
-- Tener entre 2 y 3 oraciones
+- Tener maximo 2 oraciones
 - Ser concisa
 
 Responde SOLO con la descripción, sin títulos ni encabezados.
