@@ -454,9 +454,8 @@ footer a{
     border-radius: 10px;
     transition: all .18s ease;
 }
-
 footer a:hover {
-    color: #fff;
+      color: #fff;
     background: #ffffff14;
     transform: translateY(-1px);
 }

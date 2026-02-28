@@ -132,7 +132,7 @@ Título original: "${selectedTask.text}"`,
       const result = await callClaude(
         `Eres el Operador de Tecnologia de una Tienda. Genera una descripción formal para un ticket de Jira basándote en el siguiente título.
 La descripción debe:
-- Estar en tercera persona
+- Estar en primera persona
 - Describir brevemente el problema o actividad realizada
 - Tener maximo 2 oraciones
 - Ser concisa
