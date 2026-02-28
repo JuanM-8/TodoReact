@@ -6,6 +6,8 @@ import { Footer } from "./assets/Footer.jsx";
 createRoot(document.getElementById("root")).render(
   <>
     <App />
+    <span className="glow"></span>
+
     <Footer></Footer>
-  </>
+  </>,
 );

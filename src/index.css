@@ -1,7 +1,30 @@
-*,body{
- margin: 0;
-box-sizing: border-box;
-font-family: sonar;
+body {
+  height: 100vh;
+  max-width: 70rem;
+  margin: auto;
+  background: #121212;
+  color: #000000;
+  font-family:
+    Space Grotesk,
+    Space Grotesk Fallback;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.glow {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+  border-radius: 30%;
+  display: block;
+  background: radial-gradient(#064625aa 20%, #7ec97655);
+  transform: translate(-50%, -50%);
+  background-attachment: fixed;
+  filter: blur(100px);
+  z-index: -1;
 }
 
 @font-face {

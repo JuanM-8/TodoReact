@@ -159,9 +159,6 @@ Título: "${titleToUse}"`,
 
   return (
     <>
-      {/* Toast */}
-      {toast && <div className="ai-toast">{toast}</div>}
-
       <div className={`error ${error ? "" : "hidden"}`}>
         <span>{error}</span>
       </div>
@@ -326,7 +323,7 @@ Título: "${titleToUse}"`,
                 <div className="ai-field">
                   <label className="ai-label">Título formal</label>
                   <button
-                    className="ai-btn ai-btn-blue"
+                    className="ai-btn"
                     onClick={handleFormalizeTitle}
                     disabled={loadingTitle}
                   >
@@ -371,7 +368,7 @@ Título: "${titleToUse}"`,
                     )}
                   </label>
                   <button
-                    className="ai-btn ai-btn-purple"
+                    className="ai-btn"
                     onClick={handleGenerateDesc}
                     disabled={loadingDesc}
                   >
@@ -380,7 +377,7 @@ Título: "${titleToUse}"`,
                         <span className="ai-spinner" /> Generando...
                       </>
                     ) : (
-                      "◈ Generar descripción"
+                      "✦ Generar descripción"
                     )}
                   </button>
                   {description && (
