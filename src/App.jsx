@@ -2,6 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import "./App.css";
 
+// ── Llama a Grok ────────────────────────────────────────────────────────────
+async function callClaude(prompt) {
+  const response = await fetch("/api/groq", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt }),
+  });
+  const data = await response.json();
+  return data.text ?? "";
+}
 function App() {
   const [task, setTask] = useState("");
   const [error, setError] = useState(null);
@@ -10,36 +20,54 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const prevLength = useRef(list.length);
+  // ── Estado IA ─────────────────────────────────────────────────────────────
+  const [selectedTask, setSelectedTask] = useState(null); // { index, text }
+  const [formalTitle, setFormalTitle] = useState("");
+  const [loadingTitle, setLoadingTitle] = useState(false);
+  const [description, setDescription] = useState("");
+  const [loadingDesc, setLoadingDesc] = useState(false);
+  const [toast, setToast] = useState("");
 
+  const prevLength = useRef(list.length);
+  const panelRef = useRef(null);
+
+  // ── Animación nueva tarea ─────────────────────────────────────────────────
   useEffect(() => {
     if (list.length > prevLength.current) {
       const lastTask = document.querySelector(".task-item:last-child");
-
       if (lastTask) {
         gsap.fromTo(
           lastTask,
           { opacity: 0, scale: 0.8, y: 20 },
-          { opacity: 1, scale: 1, y: 0, duration: 1, ease: "elastic" }
+          { opacity: 1, scale: 1, y: 0, duration: 1, ease: "elastic" },
         );
       }
     }
-
- 
     prevLength.current = list.length;
   }, [list]);
+
+  // ── Animación panel IA ────────────────────────────────────────────────────
+  useEffect(() => {
+    if (selectedTask && panelRef.current) {
+      gsap.fromTo(
+        panelRef.current,
+        { opacity: 0, y: 16, scale: 0.97 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.4)" },
+      );
+    }
+  }, [selectedTask]);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(list));
   }, [list]);
 
+  // ── Helpers lista ─────────────────────────────────────────────────────────
   function add() {
     if (task.trim() === "") {
       setError("Campo vacio 😅");
       setTimeout(() => setError(null), 3000);
       return;
     }
-    console.log(task);
     setTask("");
     setList([
       ...list,
@@ -49,26 +77,95 @@ function App() {
   }
 
   function remove(index) {
+    if (selectedTask?.index === index) setSelectedTask(null);
     setList(list.filter((_, i) => i !== index));
   }
 
   const toggle = (index) => {
     setList(
       list.map((item, i) =>
-        i === index ? { ...item, completed: !item.completed } : item
-      )
+        i === index ? { ...item, completed: !item.completed } : item,
+      ),
     );
   };
 
   const borrarAll = () => {
     setList([]);
+    setSelectedTask(null);
+  };
+
+  // ── Seleccionar tarea para IA ─────────────────────────────────────────────
+  const selectForJira = (index, text) => {
+    if (selectedTask?.index === index) {
+      setSelectedTask(null);
+      return;
+    }
+    setSelectedTask({ index, text });
+    setFormalTitle("");
+    setDescription("");
+  };
+
+  // ── IA: formalizar título ─────────────────────────────────────────────────
+  const handleFormalizeTitle = async () => {
+    setLoadingTitle(true);
+    setFormalTitle("");
+    try {
+      const result = await callClaude(
+        `Eres un asistente de soporte técnico de TI. Reformatea el siguiente título de tarea para que quede formal y profesional, apto para un ticket de Jira.
+Responde SOLO con el título reformateado, sin explicaciones, sin comillas, sin punto al final.
+Primera letra mayúscula, resto minúsculas. Máximo 8 palabras.
+
+Título original: "${selectedTask.text}"`,
+      );
+      setFormalTitle(result);
+    } catch {
+      setFormalTitle("Error al conectar con la IA.");
+    }
+    setLoadingTitle(false);
+  };
+
+  // ── IA: generar descripción ───────────────────────────────────────────────
+  const handleGenerateDesc = async () => {
+    const titleToUse = formalTitle || selectedTask.text;
+    setLoadingDesc(true);
+    setDescription("");
+    try {
+      const result = await callClaude(
+        `Eres un técnico de soporte de TI. Genera una descripción formal y profesional para un ticket de Jira basándote en el siguiente título.
+La descripción debe:
+- Estar en tercera persona
+- Describir brevemente el problema o actividad realizada
+- Mencionar el impacto o resolución si aplica
+- Tener entre 2 y 4 oraciones
+- Ser concisa y profesional
+
+Responde SOLO con la descripción, sin títulos ni encabezados.
+
+Título: "${titleToUse}"`,
+      );
+      setDescription(result);
+    } catch {
+      setDescription("Error al conectar con la IA.");
+    }
+    setLoadingDesc(false);
+  };
+
+  // ── Copiar al portapapeles ────────────────────────────────────────────────
+  const copy = (text, label) => {
+    navigator.clipboard.writeText(text);
+    setToast(`${label} copiado ✓`);
+    setTimeout(() => setToast(""), 2500);
   };
 
   return (
     <>
+      {/* Toast */}
+      {toast && <div className="ai-toast">{toast}</div>}
+
       <div className={`error ${error ? "" : "hidden"}`}>
         <span>{error}</span>
       </div>
+
       <div className="container">
         <span className="clip-top"></span>
 
@@ -78,8 +175,9 @@ function App() {
           <span className="clip-pin"></span>
           <span className="clip-pin"></span>
 
+          {/* Formulario */}
           <div className="cont-form">
-            <button onClick={() => borrarAll()}>
+            <button onClick={borrarAll}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                 <g id="Trash">
                   <path
@@ -146,11 +244,12 @@ function App() {
             </form>
           </div>
 
+          {/* Lista de tareas */}
           <div className="cont-tasks">
             <ul>
               {list.map((item, index) => (
                 <li
-                  className="task-item"
+                  className={`task-item ${selectedTask?.index === index ? "task-selected" : ""}`}
                   key={index}
                   onClick={() => toggle(index)}
                 >
@@ -168,15 +267,25 @@ function App() {
                     />
                     <p
                       className={item.completed ? "done" : ""}
-                      style={{
-                        padding: "0 1rem 0 0",
-                      }}
+                      style={{ padding: "0 1rem 0 0" }}
                     >
                       {item.text}
                     </p>
                   </div>
                   <div className="container-date">
                     <p className="date">{item.date}</p>
+
+                    {/* Botón Jira IA */}
+                    <button
+                      className="btn-jira"
+                      title="Generar ticket Jira"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        selectForJira(index, item.text);
+                      }}
+                    >
+                      J
+                    </button>
 
                     <button
                       onClick={(e) => {
@@ -191,6 +300,112 @@ function App() {
               ))}
             </ul>
           </div>
+
+          {/* ── Panel IA ── */}
+          {selectedTask && (
+            <div className="ai-panel" ref={panelRef}>
+              <div className="ai-panel-header">
+                <span className="ai-icon">✦</span>
+                <span>Generar ticket Jira</span>
+                <button
+                  className="ai-close"
+                  onClick={() => setSelectedTask(null)}
+                >
+                  ✕
+                </button>
+              </div>
+
+              <div className="ai-panel-body">
+                {/* Tarea original */}
+                <div className="ai-field">
+                  <label className="ai-label">Tarea original</label>
+                  <div className="ai-original">{selectedTask.text}</div>
+                </div>
+
+                {/* Título formal */}
+                <div className="ai-field">
+                  <label className="ai-label">Título formal</label>
+                  <button
+                    className="ai-btn ai-btn-blue"
+                    onClick={handleFormalizeTitle}
+                    disabled={loadingTitle}
+                  >
+                    {loadingTitle ? (
+                      <>
+                        <span className="ai-spinner" /> Formalizando...
+                      </>
+                    ) : (
+                      "✦ Formalizar título"
+                    )}
+                  </button>
+                  {formalTitle && (
+                    <div className="ai-result">
+                      <p>{formalTitle}</p>
+                      <div className="ai-result-actions">
+                        <button
+                          className="ai-mini-btn"
+                          onClick={handleFormalizeTitle}
+                        >
+                          ↺
+                        </button>
+                        <button
+                          className="ai-mini-btn"
+                          onClick={() => copy(formalTitle, "Título")}
+                        >
+                          ⎘ Copiar
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Descripción */}
+                <div className="ai-field">
+                  <label className="ai-label">
+                    Descripción
+                    {!formalTitle && (
+                      <span className="ai-hint">
+                        {" "}
+                        (formaliza el título primero para mejor resultado)
+                      </span>
+                    )}
+                  </label>
+                  <button
+                    className="ai-btn ai-btn-purple"
+                    onClick={handleGenerateDesc}
+                    disabled={loadingDesc}
+                  >
+                    {loadingDesc ? (
+                      <>
+                        <span className="ai-spinner" /> Generando...
+                      </>
+                    ) : (
+                      "◈ Generar descripción"
+                    )}
+                  </button>
+                  {description && (
+                    <div className="ai-result ai-result-desc">
+                      <p>{description}</p>
+                      <div className="ai-result-actions">
+                        <button
+                          className="ai-mini-btn"
+                          onClick={handleGenerateDesc}
+                        >
+                          ↺
+                        </button>
+                        <button
+                          className="ai-mini-btn"
+                          onClick={() => copy(description, "Descripción")}
+                        >
+                          ⎘ Copiar
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
